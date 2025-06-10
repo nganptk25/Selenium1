@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches and test outputs
+.cache/
+*.log
+*.out
+
+# VS Code settings
+.vscode/
+.history/
+
+# Environment variables and virtual environments
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Selenium/WebDriver downloads
+*.crdownload
+chromedriver.exe
+geckodriver.exe
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.xml
+*.sqlite3
+
+# Python distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Pytest cache
+.pytest_cache/

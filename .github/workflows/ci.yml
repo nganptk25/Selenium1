@@ -1,0 +1,35 @@
+name: Run Automation Tests
+
+on:
+  push:
+    branches:
+      - main # Trigger this action on push to the main branch
+  pull_request:
+    branches:
+      - main # Trigger this action on pull requests to the main branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # Use the latest Ubuntu runner
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8" # You can change the Python version as needed
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Make sure you have a requirements.txt file
+
+      # Run tests with pytest
+      - name: Run tests with pytest
+        run: |
+          pytest --maxfail=1 --disable-warnings -q  # Customize pytest options as needed
