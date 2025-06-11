@@ -65,12 +65,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: python-venv
-          path: ./
+          path: /
 
       - name: Set up Python from venv
         run: |
-          unzip ./python-venv.zip -d .
-          source ./python-venv/bin/activate
+          unzip /python-venv.zip -d .
+          source /python-venv/bin/activate
 
       - name: Run tests for ${{ matrix.suite }}
         run: |
