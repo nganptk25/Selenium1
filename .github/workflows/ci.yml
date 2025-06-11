@@ -69,6 +69,7 @@ jobs:
 
       - name: Set up Python from venv
         run: |
+          unzip python-venv.zip -d .
           source ./python-venv/bin/activate
 
       - name: Run tests for ${{ matrix.suite }}
