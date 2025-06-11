@@ -14,15 +14,6 @@ def pages_fixture():
     }
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        "--browser",
-        action="store",
-        default="chrome",
-        help="Specify the browser: chrome or firefox",
-    )
-
-
 class TestSetup:
     # This fixture is automatically used for the entire test class (scope="class", autouse=True)
     # It is responsible for setting up and tearing down the Selenium WebDriver for browser automation.
