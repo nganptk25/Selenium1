@@ -1,3 +1,4 @@
+import os
 import pytest
 import requests
 from selenium import webdriver
@@ -31,7 +32,7 @@ class TestSetup:
         session = requests.Session()
         request.cls.session = session
         # Set Chrome options for headless mode (for CI)
-        browser = request.config.getoption("--browser", default="chrome").capitalize()
+        browser = os.getenv("BROWSER", "chrome").capitalize()
         options = getattr(webdriver, f"{browser}Options")
         options.add_argument("--headless")
         options.add_argument("--no-sandbox")
