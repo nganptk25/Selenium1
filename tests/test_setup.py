@@ -1,4 +1,5 @@
 import pytest
+import requests
 from selenium import webdriver
 
 
@@ -17,6 +18,8 @@ class TestSetup:
     # It is responsible for setting up and tearing down the Selenium WebDriver for browser automation.
     @pytest.fixture(scope="class", autouse=True)
     def setup(self, request):
+        session = requests.Session()
+        request.cls.session = session
         # Set Chrome options for headless mode (for CI)
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
@@ -32,3 +35,5 @@ class TestSetup:
         yield
         # After all tests in the class have run, quit the browser and clean up resources
         driver.quit()
+        # Also close the requests session after all tests are done
+        session.close()
