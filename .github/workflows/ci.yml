@@ -18,17 +18,25 @@ jobs:
         suite:
           - tests/test_api.py
           - tests/test_manual.py
+        browser:
+          - chrome
+          - firefox
 
     steps:
       # Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Install Google Chrome
-      - name: Install Chrome
+      # Install browsers based on matrix configuration (Chrome or Firefox)
+      - name: Install browsers
         run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+          if [ "${{ matrix.browser }}" == "chrome" ]; then
+            sudo apt-get update
+            sudo apt-get install -y google-chrome-stable
+          elif [ "${{ matrix.browser }}" == "firefox" ]; then
+            sudo apt-get update
+            sudo apt-get install -y firefox
+          fi
 
       # Set up Python environment
       - name: Set up Python
@@ -45,4 +53,4 @@ jobs:
       # Run tests with pytest
       - name: Run tests with pytest
         run: |
-          pytest ${{ matrix.suite }} --maxfail=1 --disable-warnings -q  # Customize pytest options as needed
+          pytest ${{ matrix.suite }} --maxfail=1 --disable-warnings -q  --browser ${{ matrix.browser }}
