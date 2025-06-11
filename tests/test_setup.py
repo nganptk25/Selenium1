@@ -24,7 +24,7 @@ class TestSetup:
         request.cls.session = session
         # Set Chrome options for headless mode (for CI)
         browser = os.getenv("BROWSER", "chrome").capitalize()
-        options = getattr(webdriver, f"{browser}Options")
+        options = getattr(webdriver, f"{browser}Options")()
         options.add_argument("--headless")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
