@@ -13,7 +13,13 @@ def pages_fixture():
     }
 
 
-def get_driver()
+def pytest_addoption(parser):
+    parser.addoption(
+        "--browser",
+        action="store",
+        default="chrome",
+        help="Specify the browser: chrome or firefox",
+    )
 
 
 class TestSetup:
