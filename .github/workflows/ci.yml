@@ -25,10 +25,24 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Install dependencies
+      - name: Create and activate Python virtual environment
         run: |
+          python -m venv venv
+          source venv/bin/activate
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Save Chrome binary as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: chrome
+          path: /usr/bin/google-chrome-stable
+
+      - name: Save Python virtual environment as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: python-venv
+          path: venv/
 
   test:
     needs: build
@@ -41,6 +55,22 @@ jobs:
           - tests/test_manual.py
 
     steps:
+      - name: Download Chrome from artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: chrome
+          path: /usr/bin/
+
+      - name: Download Python virtual environment from artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: python-venv
+          path: ./
+
+      - name: Set up Python from venv
+        run: |
+          source venv/bin/activate
+
       - name: Run tests for ${{ matrix.suite }}
         run: |
           pytest ${{ matrix.suite }} --maxfail=1 --disable-warnings -q
