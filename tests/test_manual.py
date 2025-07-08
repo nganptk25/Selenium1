@@ -5,24 +5,23 @@
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+
 from tests.test_setup import TestSetup, pages_fixture
+from utils.helpers import parametrize_generator
 
 
 # ---------------------- #
 # SUITE 1: PAGE TITLES   #
 # ---------------------- #
 
+CONFIG_FILE = "test_config.json"
 
-# This test suite verifies the title of each homepage matches the expected string
+
 class TestHomePage(TestSetup):
 
     @pytest.mark.ui
     @pytest.mark.parametrize(
-        "page_key, expected_title",  # Parameters for test case execution
-        [
-            ("orange", "OrangeHRM"),  # Test OrangeHRM homepage
-            ("google", "Google"),  # Test Google homepage
-        ],
+        *parametrize_generator(CONFIG_FILE, "page_key", "expected_title")
     )
     def test_homepage_title(self, pages_fixture, page_key, expected_title):
         # Retrieve the URL from the shared fixture using the page key
@@ -38,11 +37,7 @@ class TestHomePage(TestSetup):
 
     @pytest.mark.login
     @pytest.mark.parametrize(
-        "page_key, expected_login_redirect",  # Parameters: page key and expected redirect behavior
-        [
-            ("orange", True),  # Expect a redirect to login page for OrangeHRM
-            ("google", False),  # No redirect expected for Google
-        ],
+        *parametrize_generator(CONFIG_FILE, "page_key", "expected_login_redirect")
     )
     def test_redirect_to_login(self, pages_fixture, page_key, expected_login_redirect):
         url = pages_fixture[page_key]
@@ -72,11 +67,7 @@ class TestElementLoginPage(TestSetup):
     @pytest.mark.ui
     @pytest.mark.login
     @pytest.mark.parametrize(
-        "page_key, expected_login",  # Parameters: page key and whether "Login" is expected
-        [
-            ("orange", True),  # Expect "Login" text on OrangeHRM homepage
-            ("google", False),  # Do NOT expect "Login" text on Google homepage
-        ],
+        *parametrize_generator(CONFIG_FILE, "page_key", "expected_login")
     )
     def test_login_text_present(self, pages_fixture, page_key, expected_login):
         # Retrieve and open the target URL
@@ -99,15 +90,9 @@ class TestElementLoginPage(TestSetup):
 
     @pytest.mark.login
     @pytest.mark.parametrize(
-        "page_key, username, password, failed_message",  # Parameters for login functionality
-        [
-            (
-                "orange",
-                "Admin",
-                "admin123",
-                "Invalid credentials",
-            ),  # Valid credentials -> "Invalid credentials" should not appear
-        ],
+        *parametrize_generator(
+            CONFIG_FILE, "page_key", "username", "password", "failed_message"
+        )
     )
     def test_login_functionality(
         self, pages_fixture, page_key, username, password, failed_message

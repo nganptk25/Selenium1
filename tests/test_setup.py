@@ -1,11 +1,13 @@
 import pytest
 import requests
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 
 
 # Define a reusable fixture that provides URLs for test pages.
 # This makes it easier to manage and change URLs from a single place.
-@pytest.fixture
+@pytest.fixture(scope="module")
 def pages_fixture():
     return {
         "orange": "https://opensource-demo.orangehrmlive.com/web/index.php",
